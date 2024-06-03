@@ -1,0 +1,27 @@
+{% liquid
+  render 'vite-tag' with 'index.css'
+  render 'vite-tag' with 'main.tsx'
+%}
+
+<div id="dh-root"
+     data-start="{{ block.settings.start }}"
+     data-title="{{ 'counter.header.title' | t }}">
+</div>
+
+{% schema %}
+{
+  "name": "t:blocks.counter.name",
+  "target": "section",
+  "settings": [
+    {
+      "id": "start",
+      "type": "number",
+      "label": "t:blocks.counter.settings.start.label",
+      "default": 0
+    }
+  ],
+  "enabled_on": {
+    "templates": ["index"]
+  }
+}
+{% endschema %}
