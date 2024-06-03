@@ -1,12 +1,10 @@
 type ButtonProps = {
-  onHandleClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
-  children: React.ReactNode;
+  readonly onHandleClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  readonly children: React.ReactNode;
 };
 
-export const Button = ({ onHandleClick, children }: ButtonProps) => {
-  return (
-    <button onClick={onHandleClick} className="tw-py-4 tw-px-20 tw-text-white tw-bg-black">
-      {children}
-    </button>
-  );
-};
+export const Button = ({ onHandleClick, children }: ButtonProps) => (
+  <button className="tw-bg-black tw-px-20 tw-py-4 tw-text-white" onClick={onHandleClick}>
+    {children}
+  </button>
+);
