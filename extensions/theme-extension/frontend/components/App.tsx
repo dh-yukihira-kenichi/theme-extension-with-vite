@@ -12,10 +12,7 @@ export const App = () => {
 
   const [count, setCount] = useState(start);
 
-  const handleButtonClick = (
-    event: React.MouseEvent<HTMLButtonElement>,
-    operand: number,
-  ) => {
+  const handleButtonClick = (event: React.MouseEvent<HTMLButtonElement>, operand: number) => {
     event.preventDefault();
     setCount(count + operand);
   };

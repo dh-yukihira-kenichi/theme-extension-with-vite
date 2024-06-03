@@ -5,10 +5,7 @@ type ButtonProps = {
 
 export const Button = ({ onHandleClick, children }: ButtonProps) => {
   return (
-    <button
-      onClick={onHandleClick}
-      className="tw-py-4 tw-px-20 tw-text-white tw-bg-black"
-    >
+    <button onClick={onHandleClick} className="tw-py-4 tw-px-20 tw-text-white tw-bg-black">
       {children}
     </button>
   );
