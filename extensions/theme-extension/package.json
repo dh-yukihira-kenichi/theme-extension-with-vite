@@ -1,0 +1,33 @@
+{
+  "name": "theme-extension",
+  "version": "1.0.0",
+  "license": "NOLICENSE",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently -r -k -P \"pnpm run shopify:dev {@}\" \"pnpm run vite:dev\" --",
+    "build": "pnpm run vite:build && pnpm run shopify:build",
+    "deploy": "pnpm run vite:build && pnpm run shopify:deploy",
+    "vite:dev": "vite",
+    "vite:build": "tsc && vite build",
+    "shopify": "pnpm exec shopify",
+    "shopify:dev": "shopify app dev --path ../../",
+    "shopify:build": "pnpm exec shopify app build --path ../../",
+    "shopify:deploy": "pnpm exec shopify app deploy --path ../../"
+  },
+  "dependencies": {
+    "@preact/signals": "^1.2.3",
+    "preact": "^10.22.0",
+    "preact-custom-element": "^4.3.0"
+  },
+  "devDependencies": {
+    "@preact/preset-vite": "^2.8.2",
+    "autoprefixer": "^10.4.19",
+    "concurrently": "^8.2.2",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.3",
+    "typescript": "^5.4.5",
+    "vite": "^5.2.12",
+    "vite-plugin-page-reload": "^0.2.0",
+    "vite-plugin-shopify": "^3.0.1"
+  }
+}
