@@ -1,5 +1,5 @@
-import { JSX } from "preact";
 import { useSignal } from "@preact/signals";
+import { JSX } from "preact";
 import { Button } from "../components/Button";
 
 export const App = () => {
@@ -13,10 +13,7 @@ export const App = () => {
 
   const count = useSignal(start);
 
-  const handleButtonClick = (
-    event: JSX.TargetedMouseEvent<HTMLButtonElement>,
-    operand: number,
-  ) => {
+  const handleButtonClick = (event: JSX.TargetedMouseEvent<HTMLButtonElement>, operand: number) => {
     event.preventDefault();
     count.value += operand;
   };
