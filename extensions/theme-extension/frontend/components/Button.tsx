@@ -1,8 +1,8 @@
-import { type JSX } from "preact";
+import { type ComponentChildren, type JSX } from "preact";
 
 type ButtonProps = {
   readonly onHandleClick: (event: JSX.TargetedMouseEvent<HTMLButtonElement>) => void;
-  readonly children: preact.ComponentChildren;
+  readonly children: ComponentChildren;
 };
 
 export const Button = ({ onHandleClick, children }: ButtonProps) => (
