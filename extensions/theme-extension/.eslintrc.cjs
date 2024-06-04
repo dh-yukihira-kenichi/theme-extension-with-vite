@@ -1,14 +1,48 @@
 /*
  * ESLint の設定ファイル
  * 参考:
+ * - prettier-plugin-organize-imports で import 文を自動フォーマットする
+ * https://zenn.dev/wakamsha/articles/prettier-plugin-organize-imports
+ *
+ * - ESLint を使い倒す（おすすめルール紹介）
+ * https://zenn.dev/noshiro_piko/articles/take-full-advantage-of-typescript-eslint
+ *
+ * - チームで同じような React コンポーネントを書く
+ * https://zenn.dev/kazukix/articles/create-similar-react-components
+ *
+ * - ESLint の設定から逃げない
+ * https://zenn.dev/kazukix/articles/eslint-config-react-native
+ *
+ * - ESLint のススメ
+ * https://zenn.dev/yhay81/articles/def73cf8a02864
+ *
+ * - ESLint + Prettier + React + TypeScript + Vite で開発環境を整える
+ * https://qiita.com/Stellarium/items/095ca74299a50016c321
+ *
+ * - ViteでTypeScript×Reactの開発環境を構築してみた【後編】
+ * https://note.com/shift_tech/n/n728b559e5097
+ *
+ * - 【React】Viteを使って爆速で環境構築を行う: ESLint Prettier
+ * https://tech-lab.sios.jp/archives/37726
+ *
+ * - ESLintでTypeScriptの変数の名付け規則をチェックしよう！
+ * https://dev.classmethod.jp/articles/shuntaka9576-check-eslint/
+ *
+ * - The Best ESLint Rules for React Projects
+ * https://timjames.dev/blog/the-best-eslint-rules-for-react-projects-30i8
+ *
+ * - React.js Vitest Unit Testing (Husky, lint-staged, ESLint, Prettier)
+ * https://dev.to/rajaerobinson/reactjs-vitest-unit-testing-husky-lint-staged-eslint-prettier-2e50
+ *
+ * - Efficient React Project Setup with Vite, ESLint, Prettier, and Husky
+ * https://medium.com/@noe.abarai20/efficient-react-project-setup-with-vite-eslint-prettier-and-husky-22b683a01b53
+ *
  * - ViteでPreactのTypescript環境を構築する
  * https://miyauchi.dev/ja/posts/vite-preact-typescript/
  *
  * - Preact + TypeScript + MUI + Vite 環境構築備忘録(2022/01時点)
  * https://zenn.dev/plesio/articles/82ea2e9d043921
  *
- * - eslint-config-preact
- * https://github.com/preactjs/eslint-config-preact
  */
 module.exports = {
   root: true,
@@ -16,15 +50,19 @@ module.exports = {
   extends: [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended-type-checked",
-    "preact",
+    "plugin:react/recommended",
+    "plugin:react/jsx-runtime",
+    "plugin:react-hooks/recommended",
     "plugin:import/recommended",
     "plugin:tailwindcss/recommended",
+    "preact",
     "prettier",
   ],
   // ESLintが無視するファイルを指定する
   ignorePatterns: ["assets/**/*", ".eslintrc.cjs", "vite.config.ts"],
   parser: "@typescript-eslint/parser",
   parserOptions: {
+    ecmaFeatures: { jsx: true },
     ecmaVersion: "latest",
     sourceType: "module",
     project: ["./tsconfig.json", "./tsconfig.node.json"],
@@ -32,6 +70,9 @@ module.exports = {
   },
   plugins: [
     "@typescript-eslint",
+    "react",
+    "react-refresh",
+    "react-hooks",
     "import",
     "unused-imports",
     "prefer-arrow-functions",
@@ -42,6 +83,73 @@ module.exports = {
     // eslint-config-preactのバグを回避するため、以下を追加
     // https://github.com/preactjs/eslint-config-preact/issues/19
     "jest/no-deprecated-functions": "off",
+
+    // コンポーネントの深さを制限する
+    "react/jsx-max-depth": ["error", { max: 5 }],
+
+    // JSXの属性に対して、Spread演算子を禁止する
+    "react/jsx-props-no-spreading": "off",
+
+    // イテラブルな要素のkeyにindexを使うのを禁止する
+    "react/no-array-index-key": "error",
+
+    // Propsの型定義をread-onlyにする
+    "react/prefer-read-only-props": "error",
+
+    // ネストしたコンポーネントの作成を禁止する
+    "react/prefer-stateless-function": "error",
+
+    // Reactの非推奨なプロパティを使うのを禁止する
+    "react/no-danger": "error",
+
+    // React hooks を使う際のルール違反をエラーにする
+    "react-hooks/exhaustive-deps": "error",
+    "react-hooks/rules-of-hooks": "error",
+
+    // Propsなどの分割代入を強制する
+    "react/destructuring-assignment": "error",
+
+    // useStateの返り値の命名を [value, setValue] にする
+    "react/hook-use-state": "error",
+
+    // boolean型のPropsの渡し方を統一する
+    "react/jsx-boolean-value": "error",
+
+    // React Fragmentの書き方を統一する. 以下のエラーがでるため無効化している
+    // Fragments are only supported starting from React v16.2. Please disable the
+    // `react/jsx-fragments` rule in `eslint` settings or upgrade your version of React
+    // "react/jsx-fragments": "error",
+
+    // 不要なReact.Fragmentを削除する
+    "react/jsx-no-useless-fragment": "error",
+
+    // Propsとchildrenで不要な中括弧を削除する
+    "react/jsx-curly-brace-presence": "error",
+
+    // ChildrenをPropsとして渡さない
+    "react/no-children-prop": "error",
+
+    // Propsの並び順をアルファベット順にする
+    "react/jsx-sort-props": "warn",
+
+    // 子要素がない場合は自己終了タグを使う
+    "react/self-closing-comp": "error",
+
+    // 不本意なリーク値がレンダリングされないようにする
+    "react/jsx-no-leaked-render": ["error", { validStrategies: ["ternary"] }],
+
+    // 関数コンポーネントの定義方法を統一する(アロー関数を使う)
+    "react/function-component-definition": [
+      "error",
+      {
+        namedComponents: "arrow-function",
+        unnamedComponents: "arrow-function",
+      },
+    ],
+
+    // JSXに直接コールバック関数を書くのを禁止する(useCallbackを使うと解決できる)
+    // 最適化するならば有効化するべきルールだが、最適化より簡潔さと可読性を優先するため無効化している
+    // "react/jsx-no-bind": "error",
 
     // 数値への型強制(+foo) や文字列への型強制(''+foo) などを禁止する
     "no-implicit-coercion": "error",
@@ -61,6 +169,9 @@ module.exports = {
         singleReturnOnly: false,
       },
     ],
+
+    // Viteで作成したReactアプリの初期設定
+    "react-refresh/only-export-components": ["error", { allowConstantExport: true }],
 
     // 未使用のimportを検出する
     "unused-imports/no-unused-imports": "warn",
