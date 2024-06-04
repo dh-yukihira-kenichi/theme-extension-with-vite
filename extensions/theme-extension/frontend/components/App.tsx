@@ -1,5 +1,5 @@
 import { useSignal } from "@preact/signals";
-import { JSX } from "preact";
+import { type JSX } from "preact";
 import { Button } from "../components/Button";
 
 export const App = () => {
