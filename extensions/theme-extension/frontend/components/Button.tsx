@@ -1,14 +1,12 @@
-import { JSX } from "preact";
+import { type ComponentChildren, type JSX } from "preact";
 
 type ButtonProps = {
-  onHandleClick: (event: JSX.TargetedMouseEvent<HTMLButtonElement>) => void;
-  children: preact.ComponentChildren;
+  readonly onHandleClick: (event: JSX.TargetedMouseEvent<HTMLButtonElement>) => void;
+  readonly children: ComponentChildren;
 };
 
-export const Button = ({ onHandleClick, children }: ButtonProps) => {
-  return (
-    <button onClick={onHandleClick} className="tw-py-4 tw-px-20 tw-text-white tw-bg-black">
-      {children}
-    </button>
-  );
-};
+export const Button = ({ onHandleClick, children }: ButtonProps) => (
+  <button className="tw-bg-black tw-px-20 tw-py-4 tw-text-white" onClick={onHandleClick}>
+    {children}
+  </button>
+);

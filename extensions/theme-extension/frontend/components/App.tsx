@@ -1,15 +1,14 @@
 import { useSignal } from "@preact/signals";
-import { JSX } from "preact";
+import { type JSX } from "preact";
 import { Button } from "../components/Button";
 
 export const App = () => {
   const element = document.getElementById("dh-root");
 
-  const dataStart = element?.getAttribute("data-start");
-  const start = dataStart ? parseInt(dataStart, 10) : 0;
+  const dataStart = element?.getAttribute("data-start") ?? "0";
+  const start = parseInt(dataStart, 10);
 
-  const dataTitle = element?.getAttribute("data-title");
-  const title = dataTitle ? dataTitle : "dummy";
+  const title = element?.getAttribute("data-title") ?? "dummy";
 
   const count = useSignal(start);
 
